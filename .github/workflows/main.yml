@@ -2,29 +2,36 @@ name: Adhahi Checker
 
 on:
   schedule:
-    # Runs every 5 minutes
-    - cron: '*/5 * * * *'
-  workflow_dispatch: # Allows manual testing from the Actions tab
+    # This triggers the script every 5 minutes
+    - cron: "*/5 * * * *"
+  push:
+    # This triggers the script immediately whenever you push code changes
+    branches: [main]
+  workflow_dispatch:
+    # This allows you to click the manual "Run workflow" button
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
+      # 1. Pulls your code from the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Sets up the Python environment
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: "3.9"
 
+      # 3. Installs the requests library directly (No requirements.txt needed)
       - name: Install dependencies
-        # This will install 'requests' from your requirements.txt file
-        run: pip install -r requirements.txt
+        run: pip install requests
 
+      # 4. Runs your python script using the Secrets you saved in GitHub Settings
       - name: Run Script
         env:
-          # Using Secrets is much safer than hardcoding tokens
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python jijel.py
