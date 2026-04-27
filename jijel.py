@@ -50,9 +50,5 @@ def check_quotas():
     except Exception as e:
         print(f"❌ API Error: {e}")
 
-if __name__ == "__main__":
-    print("🚀 Script started. Press Ctrl+C to stop.")
-    while True:
-        check_quotas()
-        # 300 seconds = 5 minutes
-        time.sleep(20)
+if __name__ == "__main__": 
+    check_quotas() 
